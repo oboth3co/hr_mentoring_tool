@@ -73,10 +73,13 @@ def matching(mentee_data, mentor_data):
   for headline in mentee_data[0]:
         if headline == "Mentee_Promotion/Studium":
           mentee_promotion = i
-        if headline == "Mentee gleiches geschlecht?":
+        if headline == "Mentee_Mentee gleiches geschlecht?":
               geschlechterfrage = i
         if headline == "Mentee_Geschlecht":
               mentee_geschlecht = i
+        if headline == "Mentee_Kind und Ment Kind":
+              mentee_kind_und_kindfrage = i
+        
         i= i+1
 
   a= 0
@@ -85,6 +88,8 @@ def matching(mentee_data, mentor_data):
           mentor_promotion = a
         if headline == "Mentor_Geschlecht":
               mentor_geschlecht = a
+        if headline == "Mentor_Kind?":
+              mentor_kind = a
         a = a+1
 
   mentee_data.pop(0)
@@ -94,16 +99,65 @@ def matching(mentee_data, mentor_data):
   random.shuffle(mentee_data)
   random.shuffle(mentor_data)
 
-      
+  deleted = []
+  for i in range(len(mentor_data[0])):
+        deleted.append("deleted")
+
+
+  # print("len mentee_data:", len(mentee_data))
+  # print("len  mentor_data:", len(mentor_data))
+  # print("len  deldtd:", len(deleted))
+  i=0
+  while i < len(mentee_data):
+        j=0
+        while j < len(mentor_data):
+              # print("vergleiche mentee:", i, "mentor:", j)
+
+              if mentee_data[i][mentee_kind_und_kindfrage] == "ja" and mentee_data[i][geschlechterfrage] == "ja":
+                  if mentee_data[i][mentee_promotion]== mentor_data[j][mentor_promotion] and mentee_data[i][mentee_kind_und_kindfrage] == mentor_data[j][mentor_kind] and mentee_data[i][mentee_geschlecht] == mentor_data[j][mentor_geschlecht]:
+                    match= mentor_data[j] + mentee_data[i]
+                    matching_output.append(match)
+                    mentor_data[j]= deleted
+                    mentee_data[i]= deleted
+                    print("kind+geschlecht hat nen match gefunden mentee:", i,"mentor:", j)
+                    break
+
+              elif mentee_data[i][geschlechterfrage] == "ja":
+                  if mentee_data[i][mentee_promotion]== mentor_data[j][mentor_promotion] and mentee_data[i][mentee_geschlecht] == mentor_data[j][mentor_geschlecht]:
+                    match= mentor_data[j] + mentee_data[i]
+                    matching_output.append(match)
+                    mentor_data[j]= deleted
+                    mentee_data[i]= deleted
+                    print("geschlecht hat nen match gefunden mentee:", i,"mentor:", j)
+                    break
+                  
+              elif mentee_data[i][mentee_kind_und_kindfrage] == "ja":
+                  if mentee_data[i][mentee_promotion]== mentor_data[j][mentor_promotion] and mentee_data[i][mentee_kind_und_kindfrage] == mentor_data[j][mentor_kind]:
+                    match= mentor_data[j] + mentee_data[i]
+                    matching_output.append(match)
+                    mentor_data[j]= deleted
+                    mentee_data[i]= deleted
+                    print("kind hat nen match gefunden mentee:", i,"mentor:", j)
+                    break
+
+              elif mentee_data[i][mentee_promotion]== mentor_data[j][mentor_promotion]:
+                    match= mentor_data[j] + mentee_data[i]
+                    matching_output.append(match)
+                    mentor_data[j]= deleted
+                    mentee_data[i]= deleted
+                    break
+              j=j+1
+        i=i+1
+  
   for mentee in mentee_data:
         for mentor in mentor_data:
-              if mentee[mentee_promotion] == mentor[mentor_promotion]:
-                    match = mentor + mentee   
-                    matching_output.append(match)  
-                    # mentee_data.remove(mentee)
-                    # mentor_data.remove(mentor)
-       # if mentee[geschlechterfrage] = "ja":
-              #geschlecht_match =
+              if mentee[0] != "deleted" and mentor[0] != "deleted":
+                    match= mentor+mentee
+                    matching_output.append(match)
+                    mentor= deleted
+                    mentee= deleted
+
+
 
 
   return matching_output
