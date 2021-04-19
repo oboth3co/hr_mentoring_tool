@@ -7,7 +7,6 @@ import random
 
 
 def main():
-  print("test")
   mentor_data= read_excel("mentor_input.csv")
   mentee_data= read_excel("mentee_input.csv")
   print (DataFrame(mentee_data))
@@ -71,24 +70,26 @@ def matching(mentee_data, mentor_data):
   
   i= 0
   for headline in mentee_data[0]:
-        if headline == "Mentee_Promotion/Studium":
-          mentee_promotion = i
-        if headline == "Mentee_Mentee gleiches geschlecht?":
-              geschlechterfrage = i
-        if headline == "Mentee_Geschlecht":
-              mentee_geschlecht = i
-        if headline == "Mentee_Kind und Ment Kind":
-              mentee_kind_und_kindfrage = i
-        
-        i= i+1
+    if headline == "Bist du Promotionsstipendiat*in oder regulärer Stipendiat*in? in der Studienstiftung (WICHTIG, z.B. Mediziner*innen die neben dem Studium promovieren aber trotzdem durch die reguläre Förderung gefördert werden, geben bitte Reguläre Förderung an!)":
+      mentee_promotion = i
+    if headline == "Möchtest du dass dein zukünftige Mentorin oder Mentor das gleiche Geschlecht wie du hat?":
+      geschlechterfrage = i
+    if headline == "Mit welchem Geschlecht identifizierst du dich? (Muss leider auch angegeben werden falls euch da Geschlecht eures Mentors/Mentorin egal ist)":
+      mentee_geschlecht = i
+    if headline == "Möchtest du, dass dein zukünftiger Mentor*in ebenfalls Kinder hat?":
+      kindfrage = i
+    if headline == "Hast du ein Kind/mehrere Kinder?":
+      mentee_kind	= i
+    
+    i= i+1
 
   a= 0
   for headline in mentor_data[0]:
-        if headline == "Mentor_Promotion/Studium":
+        if headline == "Bist du Promotionsstipendiat*in oder regulärer Stipendiat*in? in der Studienstiftung (WICHTIG, z.B. Mediziner*innen die neben dem Studium promovieren aber trotzdem durch die reguläre Förderung gefördert werden, geben bitte Reguläre Förderung an!)":
           mentor_promotion = a
-        if headline == "Mentor_Geschlecht":
+        if headline == "Mit welchem Geschlecht identifizierst du dich? ":
               mentor_geschlecht = a
-        if headline == "Mentor_Kind?":
+        if headline == "Hast du ein Kind/mehrere Kinder?":
               mentor_kind = a
         a = a+1
 
@@ -113,8 +114,8 @@ def matching(mentee_data, mentor_data):
         while j < len(mentor_data):
               # print("vergleiche mentee:", i, "mentor:", j)
 
-              if mentee_data[i][mentee_kind_und_kindfrage] == "ja" and mentee_data[i][geschlechterfrage] == "ja":
-                  if mentee_data[i][mentee_promotion]== mentor_data[j][mentor_promotion] and mentee_data[i][mentee_kind_und_kindfrage] == mentor_data[j][mentor_kind] and mentee_data[i][mentee_geschlecht] == mentor_data[j][mentor_geschlecht]:
+              if mentee_data[i][kindfrage] == "Ja, das wäre gut." and mentee_data[i][geschlechterfrage] == "Ja":
+                  if mentee_data[i][mentee_promotion]== mentor_data[j][mentor_promotion] and mentee_data[i][mentee_kind] == mentor_data[j][mentor_kind] and mentee_data[i][mentee_geschlecht] == mentor_data[j][mentor_geschlecht]:
                     match= mentor_data[j] + mentee_data[i]
                     matching_output.append(match)
                     mentor_data[j]= deleted
@@ -122,7 +123,7 @@ def matching(mentee_data, mentor_data):
                     print("kind+geschlecht hat nen match gefunden mentee:", i,"mentor:", j)
                     break
 
-              elif mentee_data[i][geschlechterfrage] == "ja":
+              elif mentee_data[i][geschlechterfrage] == "Ja":
                   if mentee_data[i][mentee_promotion]== mentor_data[j][mentor_promotion] and mentee_data[i][mentee_geschlecht] == mentor_data[j][mentor_geschlecht]:
                     match= mentor_data[j] + mentee_data[i]
                     matching_output.append(match)
@@ -131,8 +132,8 @@ def matching(mentee_data, mentor_data):
                     print("geschlecht hat nen match gefunden mentee:", i,"mentor:", j)
                     break
                   
-              elif mentee_data[i][mentee_kind_und_kindfrage] == "ja":
-                  if mentee_data[i][mentee_promotion]== mentor_data[j][mentor_promotion] and mentee_data[i][mentee_kind_und_kindfrage] == mentor_data[j][mentor_kind]:
+              elif mentee_data[i][kindfrage] == "Ja, das wäre gut.":
+                  if mentee_data[i][mentee_promotion]== mentor_data[j][mentor_promotion] and mentee_data[i][mentee_kind] == mentor_data[j][mentor_kind]:
                     match= mentor_data[j] + mentee_data[i]
                     matching_output.append(match)
                     mentor_data[j]= deleted
