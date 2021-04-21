@@ -47,6 +47,7 @@ def matching(mentee_data, mentor_data):
   
   i= 0
   for headline in mentee_data[0]:
+
     if headline == "Bist du Promotionsstipendiat*in oder regulärer Stipendiat*in? in der Studienstiftung (WICHTIG, z.B. Mediziner*innen die neben dem Studium promovieren aber trotzdem durch die reguläre Förderung gefördert werden, geben bitte Reguläre Förderung an!)":
       mentee_promotion = i
     if headline == "Möchtest du dass dein zukünftige Mentorin oder Mentor das gleiche Geschlecht wie du hat?":
@@ -85,11 +86,13 @@ def matching(mentee_data, mentor_data):
   mentor_data.pop(0)
 
 
-  #random.shuffle(mentee_data)
-  #random.shuffle(mentor_data)
+
+  random.shuffle(mentee_data)
+  random.shuffle(mentor_data)
 
   deleted = []
   for i in range(len(mentee_data[0])):
+
         deleted.append("deleted")
 
 
@@ -98,6 +101,7 @@ def matching(mentee_data, mentor_data):
   # print("len  deldtd:", len(deleted))
   i=0
   while i < len(mentee_data):
+
     j=0
     while j < len(mentor_data):
       print("vergleiche mentee:", i, "mentor:", j)
